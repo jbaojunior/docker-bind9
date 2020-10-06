@@ -1,0 +1,28 @@
+#!/bin/bash
+# Create/adjust the named.conf with all configuration files in the directories /opt/named/conf.d and /opt/named/zones
+# This script do a loop in this directories and add in the end of named.conf file to the include
+# If you will replace the named.conf too use the environment variable NAMED_CONF_EDITED=1 to do not do this includes
+
+## Define variables
+CONFS='/opt/named/conf.d'
+ZONES='/opt/named/zones'
+
+
+## Creating the named.conf and verifying the files in the directory
+if [ "${NAMED_CONF_EDITED:-0}" = 0 ]
+then
+  source /template/named.conf.tpl > /etc/named.conf
+
+  for file in $(ls "${CONFS}"/*.conf)
+  do
+    echo 'include "'${file}'";' >> /etc/named.conf
+  done 
+  
+  for file in $(ls "${ZONES}"/*.zone)
+  do
+    echo 'include "'${file}'";' >> /etc/named.conf
+  done
+fi
+
+## Starting named
+/usr/sbin/named ${START_PARAMS:--fg -d ${DEBUG_LEVEL:-0} -u named}

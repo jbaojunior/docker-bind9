@@ -21,7 +21,7 @@ The '/ opt / named / data' must have zone files.
 
 Well, using the docker you can mount any type of file. If you create your own named.conf, set the variable "NAME_CONF_EDITED" to a value of 1. The init script finds the files in '/ opt / named' and uses the 'include' statements to load them. This variable (NAMED_CONF_EDITED) disables this.
 
-In the [Example](#example) section you can get a better idea of how this works.
+In the [Example](#Example) section you can get a better idea of how this works.
 
 ### Variables
 
@@ -112,7 +112,7 @@ chown -R 25:25 /tmp/named/data
 The acl using 'localnets;' allow any host in the same network where Bind is running. You can use an acl file in conf.d directory or specified a range in this parameter ('172.16.0.0/12;').
 We are bind the ports 1053 to 53 (dns) and 1953 to 953 (rndc).
 ```
-docker run -it --name bind9 -e DEBUG_LEVEL=1 -e IPV4_LISTEN_ACL='localnets;' -e ALLOW_QUERY='localnets;' -v /tmp/named:/opt/named -p 1053:53/udp -p 1053:53/tcp -p 1953:953 bind:teste
+docker run -d --name bind9 -e DEBUG_LEVEL=1 -e IPV4_LISTEN_ACL='localnets;' -e ALLOW_QUERY='localnets;' -v /tmp/named:/opt/named -p 1053:53/udp -p 1053:53/tcp -p 1953:953 bind9:11-own
 ```
 
 #### Testing Dynamic Update
