@@ -64,12 +64,12 @@ mkdir -p /tmp/named/{data,conf.d,zones,rndc}
 cat << EOF > /tmp/named/conf.d/controls.conf
 controls {
   inet * port 953
-  allow { localnets; } keys { rndc_key; }; // be the must restrictive possible in acls
+  allow { localnets; } keys { update_key; }; // be the must restrictive possible in acls
 };
-EOF  
+EOF
 
 ##### Keys statement in named.conf
-cat << EOF > /tmp/named/conf.d/rndc_key.conf
+cat << EOF > /tmp/named/conf.d/update_key.conf
 key update_key {
      algorithm "hmac-sha256";
      secret
@@ -131,7 +131,7 @@ key update_key {
 options {
      default-server 127.0.0.1;
      default-port   1953; // docker bind port 1953 to 953
-     default-key    rndc_key;
+     default-key    update_key;
 };
 EOF
 
